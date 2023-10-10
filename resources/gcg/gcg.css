@@ -1,0 +1,176 @@
+.yz-logo {
+  font-size: 12px;
+  color: #675856;
+  text-align: center;
+  margin-bottom: 18px;
+  margin-top: 54px;
+}
+
+:root {
+  --theme-color: #d3bc8d ;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body, html {
+  height: 100%;
+  font-size: 20px;
+  color: #1e1f20;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.layout {
+  height: 100%;
+  max-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  background: #fafaf9;
+}
+
+.share-container {
+  background: #fafaf9;
+  position: relative;
+  width: max-content;
+}
+.share-container .share-header {
+  position: relative;
+  z-index: 1;
+}
+.share-container .nickname {
+  font-size: 28px;
+  font-family: PingFangSC-Medium, PingFang SC, serif;
+  font-weight: 500;
+  color: #675856;
+  line-height: 32px;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+.share-container .signature {
+  font-size: 20px;
+  font-weight: 500;
+  color: #675856;
+  line-height: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0 16px;
+  margin-right: 16px;
+  height: 36px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: left;
+}
+.share-container .level {
+  font-size: 20px;
+  font-weight: 400;
+  color: #675856;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+.share-container .tags {
+  margin-bottom: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+.share-container .tags .tag {
+  background: #4ca1f8;
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  padding: 0 16px;
+  margin-right: 16px;
+  margin-bottom: 10px;
+  height: 36px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.share-container .logo {
+  position: absolute;
+  top: 58px;
+  right: 32px;
+  width: 180px;
+  height: 60px;
+  display: flex;
+  z-index: 2;
+}
+.share-container .inner {
+  padding: 40px 24px 12px;
+  position: relative;
+}
+.share-container .inner .end-divider {
+  background-image: url("../../html/gcg/img/divider.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 226px;
+  left: 28px;
+  right: 28px;
+  height: 3px;
+}
+.share-container .section-name {
+  background-image: url("../../html/gcg/img/section-background.png");
+  background-size: 100% 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 64px;
+  line-height: 26px;
+  font-size: 25px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  color: #675856;
+  letter-spacing: 6px;
+}
+.share-container .list-container {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.share-container .list-content {
+  justify-content: center;
+  color: #675856;
+  width: 100%;
+  background-color: #fff;
+  border: 2px solid #ebebeb;
+  border-radius: 6px;
+}
+.share-container .list-content tbody > tr:nth-child(odd) {
+  background: #e2e8f0;
+}
+.share-container .list-content td {
+  font-size: 20px;
+}
+.share-container .list-content th {
+  font-size: 20px;
+}

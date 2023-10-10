@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{pluResPath}}html/gcg/gcg.css" rel="stylesheet" type="text/css"/>
+    <script src="{{pluResPath}}html/gcg/tailwindcss.js"></script>
+</head>
+
+<body>
+<div id="root">
+    <div class="layout">
+        <div id="container" class="share-container">
+            <img alt="" class="logo" src="{{pluResPath}}html/gcg/img/logo.png">
+            <div class="inner">
+                <div class="end-divider"></div>
+                <div class="share-header">
+                    <div class="nickname">{{gcgData.nickname}} - {{gcgData.uid}}</div>
+                    <div class="level">牌手等级 {{gcgData.level}}</div>
+                    <div class="tags">
+                        <div class="tag">角色牌 {{gcgData.avatar_card_num_gained}}/{{gcgData.avatar_card_num_total}}</div>
+                        <div class="tag">行动牌 {{gcgData.action_card_num_gained}}/{{gcgData.action_card_num_total}}</div>
+                        <div class="tag">共进行 {{gcgData.total_round}} 场游戏</div>
+                        <div class="tag">胜率 {{gcgData.win_rate.toFixed(3)}}%</div>
+                    </div>
+                    <div class="signature">暂无签名</div>
+                </div>
+            </div>
+            <div class="">
+                {{if renderType === "avatar" }}
+                <div class="list-container">
+                    <div class="section-name">角色牌数据</div>
+                    <div class="list-content">
+                        <div class="flow-root">
+                            <div class="">
+                                <div class="inline-block min-w-full align-middle rounded-3xl">
+                                    <table class="min-w-full divide-y divide-gray-300 rounded-3xl">
+                                        <thead class="">
+                                        <tr>
+                                            <th class="py-2 px-2 text-center font-semibold sm:pl-3" scope="col">#</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">名称</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">出场数</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">出场率%</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">胜率%</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">胜局数</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="">
+                                        {{each gcgData.avatar_card_list val i}}
+                                        <tr>
+                                            <td class="whitespace-nowrap py-2 px-2 font-medium sm:pl-3">{{i+1}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">
+                                                {{val.card_name}}
+                                            </td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.use_count}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.usage_rate}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.win_rate}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.proficiency}}</td>
+                                        </tr>
+                                        {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{if renderType === "action" }}
+                <div class="list-container">
+                    <div class="section-name">行动牌数据</div>
+                    <div class="list-content">
+                        <div class="flow-root">
+                            <div class="flex flex-row space-x-3">
+                                <div class="inline-block min-w-max align-middle rounded-3xl">
+                                    <table class="min-w-full divide-y divide-gray-300 rounded-3xl">
+                                        <thead class="">
+                                        <tr>
+                                            <th class="py-2 px-2 text-center font-semibold sm:pl-3" scope="col">#</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">类别</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">名称</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">数量</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">使用次数</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">使用率%</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="">
+                                        {{each gcgData.action_card_list val i}}
+                                        {{if i < gcgData.action_card_list.length / 2}}
+                                        <tr>
+                                            <td class="whitespace-nowrap py-2 px-2 font-medium sm:pl-3">{{i+1}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">
+                                                {{val.card_type}}
+                                            </td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.card_name}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.card_num}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.use_count}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.usage_rate}}</td>
+                                        </tr>
+                                        {{/if}}
+                                        {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="inline-block min-w-max align-middle rounded-3xl">
+                                    <table class="min-w-full divide-y divide-gray-300 rounded-3xl">
+                                        <thead class="">
+                                        <tr>
+                                            <th class="py-2 px-2 text-center font-semibold sm:pl-3" scope="col">#</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">类别</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">名称</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">数量</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">使用次数</th>
+                                            <th class="py-2 px-2 text-center font-semibold" scope="col">使用率%</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="">
+                                        {{each gcgData.action_card_list val i}}
+                                        {{if !(i < gcgData.action_card_list.length / 2 )}}
+                                        <tr>
+                                            <td class="whitespace-nowrap py-2 px-2 font-medium sm:pl-3">{{i+1}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">
+                                                {{val.card_type}}
+                                            </td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.card_name}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.card_num}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.use_count}}</td>
+                                            <td class="whitespace-nowrap py-2 px-2 text-center text-gray-900">{{val.usage_rate}}</td>
+                                        </tr>
+                                        {{/if}}
+                                        {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            <div class="yz-logo">七圣召唤</div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
