@@ -5,7 +5,7 @@
 
 QQ: 491409784
 
-✈️: [点此进群](t.me/neigui_impact)
+✈️: [点此进群](https://t.me/neigui_impact)
 
 ![](Tutorial.png)
 
