@@ -1,12 +1,6 @@
 import base from "./base.js";
 import MysInfo from './mys/mysInfo.js'
 import lodash from 'lodash'
-import fs from 'fs'
-import fetch from 'node-fetch';
-import path from 'path'
-
-const _path = process.cwd();
-const gcgImagePath = _path + "/data/gcg-plugin/img/gcg";
 
 export default class Gcg extends base {
   constructor(e) {
@@ -29,7 +23,7 @@ export default class Gcg extends base {
       "冷知识：3.5版本风花节活动和赛诺对战后只会增加熟练度不会增加使用次数，因此会出现1熟练度0使用度，或者胜率大于100%的奇观",
       "冷知识：游戏最重要的不是胜率，而是快乐。",
       "小知识：如果查询七圣数据时数据变化，会发送变化的数据，如果数据未变化，会发送全卡牌一图流数据",
-      ];
+    ];
   }
 
   async getRandomTip() {
@@ -83,7 +77,7 @@ export default class Gcg extends base {
     //处理对局数据
     //处理角色牌数据
     //处理行动牌数据
-    const [replayList, avatarCardResults, actionCardResult ]=
+    const [replayList, avatarCardResults, actionCardResult] =
       await Promise.all([
         this.getReplayData(res['basicInfo']?.replays),
         this.getAvatarData(res['avatar_cardList'].card_list),
@@ -122,11 +116,15 @@ export default class Gcg extends base {
 
     //比较新旧角色卡牌数据的熟练度和使用次数变化
     const changedData = await this.compareAvatarDataChanges(avatarCardResult);
+
+    //将本次查询的数据存入redis，仅保存30天，以避免时隔太久再回来查询时数据变化太大
+    await redis.setEx(`${this.cacheKey.avatarCardResultCacheKey}:${this.e.uid}`, 3600 * 24 * 30, JSON.stringify(avatarCardResult));
+
     if (changedData.length > 0) {
       //如果有变化的数据，机器人只发送变动数据，不生成图片
       msg.push("\n");
       for (let val in changedData) {
-        let text;
+        let text = "";
         const lostCount = changedData[val].use_count_change - changedData[val].proficiency_change;
         if (changedData[val].isNew) {
           text += '[新]'
@@ -143,7 +141,7 @@ export default class Gcg extends base {
       }
 
       await this.e.reply(msg.join(""), true);
-      return true;
+      return false;
     }
 
     msg.push("\n图片生成中，请稍后...");
@@ -288,6 +286,7 @@ export default class Gcg extends base {
     //获取上一次查询的数据
     const oldAvatarCardResult = await redis.get(`${this.cacheKey.avatarCardResultCacheKey}:${this.e.uid}`);
     if (!oldAvatarCardResult) {
+      console.log("没有上一次查询的数据，跳过比较")
       return false;
     }
 
@@ -334,15 +333,12 @@ export default class Gcg extends base {
           isNew: false,
         });
       }
-
-      //排序，熟练度变动多的在前
-      changedData = lodash.sortBy(changedData, (o) => {
-        return -o.proficiency_change;
-      });
     }
 
-    //将本次查询的数据存入redis
-    await redis.set(`${this.cacheKey.avatarCardResultCacheKey}:${this.e.uid}`, JSON.stringify(avatarCardResult));
+    //排序，熟练度变动多的在前
+    changedData = lodash.sortBy(changedData, (o) => {
+      return -o.proficiency_change;
+    });
 
     return changedData;
   }
@@ -398,36 +394,5 @@ export default class Gcg extends base {
     }
 
     return replayList;
-  }
-
-  async renderGcgStats(avatarCardResult, actionCardResult, playerInfo) {
-    let baseRenderData = {
-      quality: 90,
-      sys: {
-        scale: 1.5,
-      },
-      ...this.screenData,
-      tplFile: "./plugins/genshin/resources/html/gcgData/gcgData.html", //强制指定模版
-      uid: this.e.uid,
-      saveId: this.e.uid,
-      ...res,
-      totalGame: gcgTotalRound,
-      winRate: gcgTotalRound === 0 ? 0 : (gcgWinRound / gcgTotalRound * 100).toFixed(3),
-      //YYYY-MM-DD HH:mm:ss
-      currentTime: new Date().toLocaleString("zh-CN", {
-        timeZone: "Asia/Shanghai",
-      }),
-    }
-
-    const avatarRenderData = {
-      ...baseRenderData,
-      avatarCardList: gcgCardInfoSort,
-    }
-
-    const actionRenderData = {
-      ...baseRenderData,
-      actionCardList: actionList,
-    }
-    return {avatarRenderData, actionRenderData}
   }
 }
