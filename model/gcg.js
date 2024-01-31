@@ -113,6 +113,11 @@ export default class Gcg extends base {
     //显示对局数和胜率变化
     msg.push(`\n距上次查询对局+${totalRoundChange}，胜率${winRateChange.toString().includes("-") ? "" : "+"}${winRateChange.toFixed(3)}%`);
 
+    //显示最近对局
+    msg.push(`\n--------`);
+    for (let i = 0; i < replayList.length; i++) {
+      msg.push(`\n${replayList[i].match_type} ${replayList[i].oppositeName} ${replayList[i].is_win ? "胜利" : "失败"}`);
+    }
 
     //比较新旧角色卡牌数据的熟练度和使用次数变化
     const changedData = await this.compareAvatarDataChanges(avatarCardResult);
